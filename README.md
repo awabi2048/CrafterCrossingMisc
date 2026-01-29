@@ -1,23 +1,11 @@
-# Paper Kotlin Plugin Template (1.21.8 向け)
+# CrafterCrossingMisc Plugin (CCM)
+## 概要
+こたサーバー/CrafterCrossing向けに作成されたユーティリティプラグインです。
 
-このプロジェクトは、Paper 1.21.8 (API 1.21.4) 向けの Kotlin プラグイン雛形です。
+## 主な機能
+### 音楽の再生
+指定のワールドに移動またはログインした際、特定の音楽を再生します。ループ再生にも対応しています。
 
-## 特徴
-- **Kotlin**: 最新の Kotlin 1.9.22 を使用。
-- **Java 21**: Paper 1.21.x に必要な Java 21 をターゲットにしています。
-- **Maven**: 依存関係管理に Maven を使用。
-- **paper-plugin.yml**: 最新の Paper プラグイン形式。
-
-## ビルド方法
-以下のコマンドを実行して JAR ファイルを生成します。
-
-```bash
-mvn clean package
-```
-
-生成された JAR ファイルは `target/` ディレクトリ配下に作成されます。
-
-## 構成
-- `src/main/kotlin`: Kotlin ソースコード
-- `src/main/resources`: `paper-plugin.yml` や `config.yml` などのリソースファイル
-- `pom.xml`: Maven 設定ファイル
+### Shift + F バインダー
+プレイヤーが`Shift + F`の操作を行った際、特定のコマンド群を実行する機能です。
+プレイヤーの名前、UUIDのプレースホルダーを利用可能です。
