@@ -1,0 +1,12 @@
+name: CrafterCrossingMisc
+version: 0.1-alpha
+main: awabi2048.Main
+api-version: '1.21'
+author: awabi2048
+description: CrafterCrossingMisc plugin for miscellaneous features.
+
+commands:
+  ccm:
+    description: Main command for CrafterCrossingMisc
+    usage: /ccm toggle <function>
+    permission: ccm.admin

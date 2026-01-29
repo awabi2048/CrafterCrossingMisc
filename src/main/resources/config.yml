@@ -1,0 +1,24 @@
+# CrafterCrossingMisc Configuration
+
+# Shift + F Binder
+# プレイヤーがスニーク中にFキー(オフハンドへ持ち替え)を押した際に実行されるコマンド
+shift_f_binder:
+  commands:
+    - "say %player_name%"
+  # プレースホルダー: %player_name%, %player_uuid%
+
+# 音楽再生機能 (play_music)
+# 特定のワールドに移動した際に音楽を再生します
+music_playback:
+  enabled: true
+  worlds:
+    world:
+      sound: "minecraft:music.game"
+      volume: 1.0
+      pitch: 1.0
+      duration: 200 # 音楽の長さ(秒)
+    world_nether:
+      sound: "minecraft:music.nether"
+      volume: 1.0
+      pitch: 1.0
+      duration: 200
