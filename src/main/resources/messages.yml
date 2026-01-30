@@ -1,0 +1,8 @@
+# display_style: メッセージ送信の形式
+#   random: textsの内容からランダムに一つ選択して送信
+#   order: textsの内容を順番に送信。最後まで行ったら循環する
+#   batch: textsの内容を一度に複数行で送信
+
+test_random: random
+test_order: order
+test_batch: batch

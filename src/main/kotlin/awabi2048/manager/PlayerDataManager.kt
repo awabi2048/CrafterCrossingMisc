@@ -1,9 +1,9 @@
 package awabi2048.manager
 
 import awabi2048.Main
-import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.util.UUID
+import org.bukkit.configuration.file.YamlConfiguration
 
 object PlayerDataManager {
     private val playerData = mutableMapOf<UUID, YamlConfiguration>()
@@ -32,6 +32,10 @@ object PlayerDataManager {
 
     fun getString(uuid: UUID, key: String, default: String? = null): String? {
         return getData(uuid).getString(key, default)
+    }
+
+    fun getInt(uuid: UUID, key: String, default: Int = 0): Int {
+        return getData(uuid).getInt(key, default)
     }
 
     fun set(uuid: UUID, key: String, value: Any?) {

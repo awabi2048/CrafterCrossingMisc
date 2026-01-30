@@ -6,4 +6,19 @@ toggle_success: "&a%function% を %status% にしました。"
 lang_updated: "&a言語を %lang% に変更しました。"
 reload_success: "&a設定を再読み込みしました。"
 enabled: "有効"
+
 disabled: "無効"
+
+npc_messages:
+  test_random:
+    - "&aランダム1"
+    - "&bランダム2"
+    - "&cランダム3"
+  test_order:
+    - "&1順序1"
+    - "&2順序2"
+    - "&3順序3"
+  test_batch:
+    - "&e一括1"
+    - "&e一括2"
+    - "&e一括3"

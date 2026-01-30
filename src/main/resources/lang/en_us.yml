@@ -7,3 +7,17 @@ lang_updated: "&aLanguage updated to %lang%."
 reload_success: "&aConfiguration reloaded."
 enabled: "Enabled"
 disabled: "Disabled"
+
+npc_messages:
+  test_random:
+    - "&aRandom1"
+    - "&bRandom2"
+    - "&cRandom3"
+  test_order:
+    - "&1Order1"
+    - "&2Order2"
+    - "&3Order3"
+  test_batch:
+    - "&eBatch1"
+    - "&eBatch2"
+    - "&eBatch3"

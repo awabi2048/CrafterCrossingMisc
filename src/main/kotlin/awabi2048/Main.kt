@@ -24,6 +24,7 @@ class Main : JavaPlugin() {
         saveDefaultConfig()
         PlayerDataManager.load()
         LanguageManager.load()
+        awabi2048.manager.MessageManager.load()
 
         // コマンドの登録
         getCommand("ccm")?.setExecutor(CCMCommand())
