@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 class MusicListener : Listener {
 
     private val musicTasks = java.util.HashMap<java.util.UUID, org.bukkit.scheduler.BukkitTask>()
+    private val currentSounds = java.util.HashMap<java.util.UUID, String>()
 
     @EventHandler
     fun onWorldChange(event: PlayerChangedWorldEvent) {
@@ -42,9 +43,14 @@ class MusicListener : Listener {
 
     fun stopMusic(player: org.bukkit.entity.Player) {
         musicTasks.remove(player.uniqueId)?.cancel()
+        val lastSound = currentSounds.remove(player.uniqueId)
+        
         // 念のため停止パケットも送る (RECORDSカテゴリを指定)
         try {
             player.stopSound(org.bukkit.SoundCategory.RECORDS)
+            if (lastSound != null) {
+                player.stopSound(lastSound, org.bukkit.SoundCategory.RECORDS)
+            }
         } catch (e: NoSuchMethodError) {
             player.stopSound("")
         }
@@ -52,12 +58,14 @@ class MusicListener : Listener {
 
     fun playMusic(player: org.bukkit.entity.Player, worldName: String) {
         stopMusic(player) // 以前のBGMを停止
+        
+        // 機能が有効かチェック (デフォルト false に変更して安全側に倒す)
+        if (!Main.instance.config.getBoolean("music_playback.enabled", false)) {
+            stopMusic(player)
+            return
+        }
 
         val config = Main.instance.config
-        
-        // 機能が有効かチェック
-        if (!config.getBoolean("music_playback.enabled", true)) return
-
         val section = config.getConfigurationSection("music_playback.worlds.$worldName") ?: return
         val soundId = section.getString("sound") ?: return
         val volume = section.getDouble("volume", 1.0).toFloat()
@@ -66,14 +74,22 @@ class MusicListener : Listener {
 
         val task = Main.instance.server.scheduler.runTaskTimer(Main.instance, Runnable {
             if (player.isOnline) {
+                // 再生中も設定をチェック (デフォルト false)
+                if (!Main.instance.config.getBoolean("music_playback.enabled", false)) {
+                    stopMusic(player)
+                    return@Runnable
+                }
+                
+                currentSounds[player.uniqueId] = soundId
+
                 // BGMとして再生するため、SoundCategory.RECORDSを使用し、位置はプレイヤーの現在地
                 // volumeを大きくすると聞こえる範囲が広がるが、ここでは設定値を尊重しつつ、
                 // 必要であればconfigで調整してもらう想定とする。
                 try {
-                    player.playSound(player.location, soundId, org.bukkit.SoundCategory.RECORDS, volume, pitch)
+                    player.playSound(player.location, soundId as String, org.bukkit.SoundCategory.RECORDS, volume, pitch)
                 } catch (e: NoSuchMethodError) {
-                    // 古いバージョンなどのフォールバック
-                    player.playSound(player.location, soundId, volume, pitch)
+                    // 古いバージョンなどのフォールバック (引数の型を明示して曖昧さを回避)
+                    player.playSound(player.location, soundId as String, volume, pitch)
                 }
             } else {
                 // プレイヤーがオフラインならタスクキャンセル (念のため)

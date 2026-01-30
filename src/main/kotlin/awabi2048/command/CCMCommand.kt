@@ -32,7 +32,7 @@ class CCMCommand : CommandExecutor, TabCompleter {
 
                 when (args[1].lowercase()) {
                     "play_music" -> {
-                        val current = Main.instance.config.getBoolean("music_playback.enabled", true)
+                        val current = Main.instance.config.getBoolean("music_playback.enabled", false)
                         val newValue = !current
                         Main.instance.config.set("music_playback.enabled", newValue)
                         Main.instance.saveConfig()
@@ -70,6 +70,13 @@ class CCMCommand : CommandExecutor, TabCompleter {
             "reload" -> {
                 Main.instance.reloadPluginConfig()
                 LanguageManager.load()
+                
+                // 音楽再生設定を反映させるためにタスクを更新
+                Main.instance.musicListener.stopAllPlayersMusic()
+                if (Main.instance.config.getBoolean("music_playback.enabled", true)) {
+                    Main.instance.musicListener.startAllPlayersMusic()
+                }
+                
                 sender.sendMessage(LanguageManager.getMessage(player, "reload_success"))
             }
             else -> {

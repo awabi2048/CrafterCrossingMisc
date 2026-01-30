@@ -46,6 +46,7 @@ class Main : JavaPlugin() {
     }
 
     fun reloadPluginConfig() {
+        saveDefaultConfig()
         reloadConfig()
     }
 }
