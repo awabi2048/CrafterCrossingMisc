@@ -15,6 +15,9 @@ class Main : JavaPlugin() {
             private set
     }
 
+    lateinit var musicListener: MusicListener
+        private set
+
     override fun onEnable() {
         instance = this
 
@@ -27,14 +30,18 @@ class Main : JavaPlugin() {
         getCommand("ccm")?.tabCompleter = CCMCommand()
 
         // リスナーの登録
+        musicListener = MusicListener()
         server.pluginManager.registerEvents(ShiftFBinderListener(), this)
-        server.pluginManager.registerEvents(MusicListener(), this)
+        server.pluginManager.registerEvents(musicListener, this)
         server.pluginManager.registerEvents(PlayerDataListener(), this)
 
         logger.info("CrafterCrossingMisc has been enabled!")
     }
 
     override fun onDisable() {
+        if (::musicListener.isInitialized) {
+            musicListener.stopAllPlayersMusic()
+        }
         logger.info("CrafterCrossingMisc has been disabled!")
     }
 

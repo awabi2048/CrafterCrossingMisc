@@ -33,10 +33,18 @@ class CCMCommand : CommandExecutor, TabCompleter {
                 when (args[1].lowercase()) {
                     "play_music" -> {
                         val current = Main.instance.config.getBoolean("music_playback.enabled", true)
-                        Main.instance.config.set("music_playback.enabled", !current)
+                        val newValue = !current
+                        Main.instance.config.set("music_playback.enabled", newValue)
                         Main.instance.saveConfig()
                         
-                        val statusKey = if (!current) "enabled" else "disabled"
+                        // プレイヤー全員の音楽を即座に更新
+                        if (newValue) {
+                            Main.instance.musicListener.startAllPlayersMusic()
+                        } else {
+                            Main.instance.musicListener.stopAllPlayersMusic()
+                        }
+                        
+                        val statusKey = if (newValue) "enabled" else "disabled"
                         val statusString = LanguageManager.getRawString(player, statusKey)
                         sender.sendMessage(LanguageManager.getMessage(player, "toggle_success", "function" to "play_music", "status" to statusString))
                     }

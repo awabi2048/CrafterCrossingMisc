@@ -32,13 +32,25 @@ class MusicListener : Listener {
         stopMusic(event.player)
     }
 
-    private fun stopMusic(player: org.bukkit.entity.Player) {
-        musicTasks.remove(player.uniqueId)?.cancel()
-        // 念のため停止パケットも送る (すべてのカテゴリを停止)
-        player.stopSound("") 
+    fun stopAllPlayersMusic() {
+        Main.instance.server.onlinePlayers.forEach { stopMusic(it) }
     }
 
-    private fun playMusic(player: org.bukkit.entity.Player, worldName: String) {
+    fun startAllPlayersMusic() {
+        Main.instance.server.onlinePlayers.forEach { playMusic(it, it.world.name) }
+    }
+
+    fun stopMusic(player: org.bukkit.entity.Player) {
+        musicTasks.remove(player.uniqueId)?.cancel()
+        // 念のため停止パケットも送る (RECORDSカテゴリを指定)
+        try {
+            player.stopSound(org.bukkit.SoundCategory.RECORDS)
+        } catch (e: NoSuchMethodError) {
+            player.stopSound("")
+        }
+    }
+
+    fun playMusic(player: org.bukkit.entity.Player, worldName: String) {
         stopMusic(player) // 以前のBGMを停止
 
         val config = Main.instance.config
