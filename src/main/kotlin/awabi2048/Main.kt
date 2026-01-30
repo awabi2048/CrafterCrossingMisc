@@ -24,7 +24,7 @@ class Main : JavaPlugin() {
         saveDefaultConfig()
         PlayerDataManager.load()
         LanguageManager.load()
-        
+
         // コマンドの登録
         getCommand("ccm")?.setExecutor(CCMCommand())
         getCommand("ccm")?.tabCompleter = CCMCommand()
@@ -34,6 +34,7 @@ class Main : JavaPlugin() {
         server.pluginManager.registerEvents(ShiftFBinderListener(), this)
         server.pluginManager.registerEvents(musicListener, this)
         server.pluginManager.registerEvents(PlayerDataListener(), this)
+        server.pluginManager.registerEvents(awabi2048.listener.PlayerDeathListener(), this)
 
         logger.info("CrafterCrossingMisc has been enabled!")
     }
