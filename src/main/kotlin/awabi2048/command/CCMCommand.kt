@@ -40,17 +40,19 @@ class CCMCommand : CommandExecutor, TabCompleter {
 
                 when (args[1].lowercase()) {
                     "play_music" -> {
-                        val current =
-                                Main.instance.config.getBoolean("music_playback.enabled", false)
+                        if (player == null) {
+                            sender.sendMessage("§cこのコマンドはプレイヤーのみ実行可能です。")
+                            return true
+                        }
+                        val current = awabi2048.manager.PlayerDataManager.getBoolean(player.uniqueId, "play_music", true)
                         val newValue = !current
-                        Main.instance.config.set("music_playback.enabled", newValue)
-                        Main.instance.saveConfig()
+                        awabi2048.manager.PlayerDataManager.set(player.uniqueId, "play_music", newValue)
 
-                        // プレイヤー全員の音楽を即座に更新
+                        // プレイヤーの音楽を即座に更新
                         if (newValue) {
-                            Main.instance.musicListener.startAllPlayersMusic()
+                            Main.instance.musicListener.playMusic(player, player.world.name)
                         } else {
-                            Main.instance.musicListener.stopAllPlayersMusic()
+                            Main.instance.musicListener.stopMusic(player)
                         }
 
                         val statusKey = if (newValue) "enabled" else "disabled"

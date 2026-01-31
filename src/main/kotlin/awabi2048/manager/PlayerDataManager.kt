@@ -38,6 +38,10 @@ object PlayerDataManager {
         return getData(uuid).getInt(key, default)
     }
 
+    fun getBoolean(uuid: UUID, key: String, default: Boolean = false): Boolean {
+        return getData(uuid).getBoolean(key, default)
+    }
+
     fun set(uuid: UUID, key: String, value: Any?) {
         val data = getData(uuid)
         data.set(key, value)

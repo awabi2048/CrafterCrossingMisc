@@ -59,8 +59,8 @@ class MusicListener : Listener {
     fun playMusic(player: org.bukkit.entity.Player, worldName: String) {
         stopMusic(player) // 以前のBGMを停止
         
-        // 機能が有効かチェック (デフォルト false に変更して安全側に倒す)
-        if (!Main.instance.config.getBoolean("music_playback.enabled", false)) {
+        // 個人の再生設定をチェック (デフォルト true)
+        if (!awabi2048.manager.PlayerDataManager.getBoolean(player.uniqueId, "play_music", true)) {
             stopMusic(player)
             return
         }
@@ -74,8 +74,8 @@ class MusicListener : Listener {
 
         val task = Main.instance.server.scheduler.runTaskTimer(Main.instance, Runnable {
             if (player.isOnline) {
-                // 再生中も設定をチェック (デフォルト false)
-                if (!Main.instance.config.getBoolean("music_playback.enabled", false)) {
+                // 再生中も設定をチェック
+                if (!awabi2048.manager.PlayerDataManager.getBoolean(player.uniqueId, "play_music", true)) {
                     stopMusic(player)
                     return@Runnable
                 }
