@@ -22,3 +22,9 @@ music_playback:
       volume: 1.0
       pitch: 1.0
       duration: 200
+
+# globalSoundEvents ゲームルール自動無効化
+# ワールド読み込み時に globalSoundEvents を false に設定します
+global_sound_events_auto_disable:
+  enabled: true
+

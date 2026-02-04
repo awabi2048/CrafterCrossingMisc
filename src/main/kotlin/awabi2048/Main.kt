@@ -4,6 +4,7 @@ import awabi2048.command.CCMCommand
 import awabi2048.listener.MusicListener
 import awabi2048.listener.PlayerDataListener
 import awabi2048.listener.ShiftFBinderListener
+import awabi2048.listener.WorldListener
 import awabi2048.manager.LanguageManager
 import awabi2048.manager.PlayerDataManager
 import org.bukkit.plugin.java.JavaPlugin
@@ -36,6 +37,7 @@ class Main : JavaPlugin() {
         server.pluginManager.registerEvents(musicListener, this)
         server.pluginManager.registerEvents(PlayerDataListener(), this)
         server.pluginManager.registerEvents(awabi2048.listener.PlayerDeathListener(), this)
+        server.pluginManager.registerEvents(WorldListener(), this)
 
         logger.info("CrafterCrossingMisc has been enabled!")
     }
